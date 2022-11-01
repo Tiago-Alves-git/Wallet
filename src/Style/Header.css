@@ -1,0 +1,13 @@
+.TituloHeader {
+  text-align: center;
+}
+
+.Home {
+  margin: 5px;
+}
+
+.HeaderWallet {
+  align-items: flex-end;
+  display: flex;
+  justify-content: space-evenly;
+}
