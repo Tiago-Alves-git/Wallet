@@ -7,7 +7,6 @@ import { BiUserCheck } from 'react-icons/bi';
 
 class HeaderWallet extends Component {
   render() {
-    console.log(this.props);
     const { email } = this.props;
     return (
       <div
@@ -28,7 +27,7 @@ class HeaderWallet extends Component {
         <div data-testid="total-field">
           { 0 }
           <div data-testid="header-currency-field">
-            { ' Brl ' }
+            { ' BRL ' }
           </div>
         </div>
       </div>
