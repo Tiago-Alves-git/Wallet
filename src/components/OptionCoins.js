@@ -3,7 +3,7 @@ import React from 'react';
 
 class OptionCoin extends React.Component {
   render() {
-    const { Moedas } = this.props;
+    const { Moedas, handleForm, defaultValue } = this.props;
     return (
       <label htmlFor="Moeda" className="form-label">
         Moeda:
@@ -11,6 +11,8 @@ class OptionCoin extends React.Component {
           data-testid="currency-input"
           name="Moeda"
           className="form-control"
+          onChange={ handleForm }
+          value={ defaultValue }
         >
           { Moedas.map((name) => (
             <option

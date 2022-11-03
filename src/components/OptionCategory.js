@@ -1,7 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class OptionCategory extends React.Component {
   render() {
+    const { handleForm, defaultValue } = this.props;
     return (
       <label htmlFor="Payment" className="form-label">
         tag:
@@ -9,6 +11,8 @@ class OptionCategory extends React.Component {
           data-testid="tag-input"
           name="Tag"
           className="form-control"
+          onChange={ handleForm }
+          value={ defaultValue }
           // className="dropdown-menu"
         >
           <option value="Alimentação" className="dropdown-item">
@@ -31,5 +35,9 @@ class OptionCategory extends React.Component {
     );
   }
 }
+
+OptionCategory.propTypes = {
+  handleForm: PropTypes.func,
+}.isRequired;
 
 export default OptionCategory;

@@ -7,7 +7,7 @@ import { BiUserCheck } from 'react-icons/bi';
 
 class HeaderWallet extends Component {
   render() {
-    const { email } = this.props;
+    const { email, totalValue } = this.props;
     return (
       <div
         className="HeaderWallet p-3 mb-2 bg-dark text-white
@@ -25,10 +25,10 @@ class HeaderWallet extends Component {
           { email }
         </div>
         <div data-testid="total-field">
-          { 0 }
-          <div data-testid="header-currency-field">
-            { ' BRL ' }
-          </div>
+          { totalValue.toFixed(2) }
+        </div>
+        <div data-testid="header-currency-field">
+          { ' BRL ' }
         </div>
       </div>
     );
@@ -40,6 +40,7 @@ HeaderWallet.propTypes = {
 }.isrequired;
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  totalValue: state.wallet.totalValue,
 });
 
 export default connect(mapStateToProps)(HeaderWallet);
