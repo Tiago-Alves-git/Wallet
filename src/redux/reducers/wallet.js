@@ -25,7 +25,7 @@ const wallet = (state = INITIAL_STATE, action) => {
   const resultado = Number(state.totalValue) + Number(ValorConvertido);
   return {
     ...state,
-    expenses: [action.payload, ...state.expenses],
+    expenses: [...state.expenses, action.payload],
     totalValue: resultado,
     editor: false,
   }; }
