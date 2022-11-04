@@ -16,14 +16,16 @@ export const requestedCurrencies = (payload) => ({
   payload,
 });
 
-export const saveExpenses = (payload) => ({
+export const saveExpenses = (payload, resultado) => ({
   type: SAVE_EXPENSES,
   payload,
+  resultado,
 });
 
-export const deleteExpenses = (payload) => ({
+export const deleteExpenses = (novoExpense, novoResultado) => ({
   type: DELETE_EXPENSES,
-  payload,
+  novoExpense,
+  novoResultado,
 });
 
 export const editExpenses = (payload) => ({

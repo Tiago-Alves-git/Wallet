@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { deleteExpenses, saveExpenses } from '../redux/actions';
+import { saveEditedExpenses } from '../redux/actions';
 import '../Style/EditForm.css';
 import OptionCategory from './OptionCategory';
 import OptionCoin from './OptionCoins';
@@ -19,34 +19,45 @@ class EditForm extends Component {
   });
 
   componentDidMount() {
-    const { isToEdit } = this.props;
+    const { State, isToEdit } = this.props;
+    const despesaASerEditada = State.filter((states) => Number(states.id)
+     === Number(isToEdit));
     this.setState({
-      ValorDespesa: isToEdit[0].value,
-      Descrição: isToEdit[0].description,
-      Moeda: isToEdit[0].currency,
-      Payment: isToEdit[0].method,
-      Tag: isToEdit[0].tag,
-      ids: isToEdit[0].id,
-      exchangeRates: isToEdit[0].exchangeRates,
+      ValorDespesa: despesaASerEditada[0].value,
+      Descrição: despesaASerEditada[0].description,
+      Moeda: despesaASerEditada[0].currency,
+      Payment: despesaASerEditada[0].method,
+      Tag: despesaASerEditada[0].tag,
+      ids: despesaASerEditada[0].id,
+      exchangeRates: despesaASerEditada[0].exchangeRates,
     });
   }
 
   handleSave = async (e) => {
-    const { dispatch } = this.props;
     e.preventDefault();
+    const { State, isToEdit, dispatch } = this.props;
     const { ValorDespesa, Descrição, Moeda, Payment, Tag, ids,
       exchangeRates } = this.state;
-    const teste = {
-      id: ids,
-      value: ValorDespesa,
-      description: Descrição,
-      currency: Moeda,
-      method: Payment,
-      tag: Tag,
-      exchangeRates,
-    };
-    await dispatch(deleteExpenses(teste.id));
-    await dispatch(saveExpenses(teste));
+    const teste = State.map((element) => {
+      if (Number(element.id) === Number(isToEdit)) {
+        // const { value, id, description, currency,
+        //   method, tag } = element;
+        return {
+        //   value: ValorDespesa,
+          id: ids,
+          value: ValorDespesa,
+          description: Descrição,
+          currency: Moeda,
+          method: Payment,
+          tag: Tag,
+          exchangeRates,
+        };
+      }
+
+      return element;
+    });
+    console.log(teste);
+    dispatch(saveEditedExpenses(teste));
   };
 
   handleForm = (event) => {
@@ -124,6 +135,7 @@ const mapStateToProps = (state) => ({
   isToEdit: state.wallet.isToEdit,
   editor: state.wallet.editor,
   Moedas: state.wallet.currencies,
+  State: state.wallet.expenses,
 });
 
 export default connect(mapStateToProps)(EditForm);

@@ -25,7 +25,7 @@ class HeaderWallet extends Component {
           { email }
         </div>
         <div data-testid="total-field">
-          { totalValue.toFixed(2) }
+          { Number(totalValue).toFixed(2) }
         </div>
         <div data-testid="header-currency-field">
           { ' BRL ' }

@@ -22,10 +22,12 @@ class WalletForm extends Component {
   async componentDidMount() {
     const { dispatch } = this.props;
     const teste = await requestCurrencies();
+    const chaves = Object.keys(teste);
+    const chavesFiltered = chaves.filter((keys) => keys !== 'USDT');
     this.setState({
       loading: false,
     });
-    dispatch(requestedCurrencies(teste));
+    dispatch(requestedCurrencies(chavesFiltered));
   }
 
   handleForm = (event) => {
@@ -39,7 +41,7 @@ class WalletForm extends Component {
     e.preventDefault();
     const requestingCurrencies = await requestCurrencies();
     const { ValorDespesa, Descrição, Moeda, Payment, Tag, ids } = this.state;
-    const { dispatch } = this.props;
+    const { dispatch, state } = this.props;
     const teste = {
       id: ids,
       value: ValorDespesa,
@@ -49,7 +51,10 @@ class WalletForm extends Component {
       tag: Tag,
       exchangeRates: requestingCurrencies,
     };
-    dispatch(saveExpenses(teste));
+    const ValorConvertido = (teste.value
+      * teste.exchangeRates[teste.currency].ask);
+    const resultado = Number(state) + Number(ValorConvertido);
+    dispatch(saveExpenses(teste, resultado));
     this.setState({
       loading: false,
       ValorDespesa: '',
@@ -129,6 +134,7 @@ class WalletForm extends Component {
 const mapStateToProps = (state) => ({
   Moedas: state.wallet.currencies,
   editor: state.wallet.editor,
+  state: state.wallet.totalValue,
 });
 
 WalletForm.propTypes = {

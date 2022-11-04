@@ -6,8 +6,16 @@ import { deleteExpenses, editExpenses } from '../redux/actions';
 
 class Table extends Component {
   handleDelete = (event) => {
+    const { Expenses, StateValue } = this.props;
+    const antigoExpense = Expenses.filter((states) => Number(states.id)
+      === Number(event.target.name));
+    const novoExpense = Expenses.filter((states) => Number(states.id)
+        !== Number(event.target.name));
+    const ValorConvertido = (Number(antigoExpense[0].value)
+          * Number(antigoExpense[0].exchangeRates[antigoExpense[0].currency].ask));
+    const novoResultado = StateValue - ValorConvertido.toFixed(2);
     const { dispatch } = this.props;
-    dispatch(deleteExpenses(event.target.name));
+    dispatch(deleteExpenses(novoExpense, novoResultado));
   };
 
   handleEdit = (event) => {
@@ -116,6 +124,7 @@ Table.propTypes = {
 
 const mapStateToProps = (state) => ({
   Expenses: state.wallet.expenses,
+  StateValue: state.wallet.totalValue,
 });
 
 export default connect(mapStateToProps)(Table);
