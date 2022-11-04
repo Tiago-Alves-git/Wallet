@@ -1,0 +1,13 @@
+.FormularioWallet {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.Wallet {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

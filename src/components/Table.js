@@ -1,11 +1,107 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
+import { deleteExpenses } from '../redux/actions';
 
 class Table extends Component {
+  handleDelete = (event) => {
+    const { dispatch } = this.props;
+    dispatch(deleteExpenses(event.target.name));
+  };
+
   render() {
+    const { Expenses } = this.props;
     return (
-      <div>Table</div>
+      <div>
+        <table className="table table-light table-hover table-bordered border-dark">
+          <tbody>
+            <tr>
+              <th>
+                Descrição;
+              </th>
+              <th>
+                Tag;
+              </th>
+              <th>
+                Método de pagamento;
+              </th>
+              <th>
+                Valor;
+              </th>
+              <th>
+                Moeda;
+              </th>
+              <th>
+                Câmbio utilizado;
+              </th>
+              <th>
+                Valor convertido;
+              </th>
+              <th>
+                Moeda de conversão;
+              </th>
+              <th>
+                Editar/Excluir.
+              </th>
+            </tr>
+            { Expenses.map((expenses) => (
+              <tr key={ expenses.id }>
+                <td>
+                  {' '}
+                  { expenses.description }
+                  {' '}
+                </td>
+                <td>
+                  { expenses.tag }
+                </td>
+                <td>
+                  { expenses.method }
+                </td>
+                <td>
+                  { expenses.value }
+                </td>
+                <td>
+                  { expenses.exchangeRates[expenses.currency].name }
+                </td>
+                <td>
+                  { expenses.exchangeRates[expenses.currency].ask }
+                </td>
+                <td>
+                  { Number(expenses.value)
+                  * Number(expenses.exchangeRates[expenses.currency].ask) }
+                </td>
+                <td>
+                  Real
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    data-testid="delete-btn"
+                    onClick={ this.handleDelete }
+                    name={ expenses.id }
+                  >
+                    {' '}
+                    <AiFillDelete pointerEvents="none" />
+                    <AiFillEdit pointerEvents="none" />
+                    {' '}
+                  </button>
+                </td>
+              </tr>
+            )) }
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
 
-export default Table;
+Table.propTypes = {
+  Expenses: PropTypes.any,
+}.isRequired;
+
+const mapStateToProps = (state) => ({
+  Expenses: state.wallet.expenses,
+});
+
+export default connect(mapStateToProps)(Table);

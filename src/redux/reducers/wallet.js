@@ -1,5 +1,5 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-import { REQUESTED_CURRENCIES, SAVE_EXPENSES } from '../actions';
+import { DELETE_EXPENSES, REQUESTED_CURRENCIES, SAVE_EXPENSES } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [], // array de string
@@ -27,6 +27,23 @@ const wallet = (state = INITIAL_STATE, action) => {
     expenses: [...state.expenses, action.payload],
     totalValue: resultado,
   }; }
+  case DELETE_EXPENSES:
+  {
+    const antigoExpense = state.expenses.filter((states) => Number(states.id)
+    === Number(action.payload));
+    const novoExpense = state.expenses.filter((states) => Number(states.id)
+      !== Number(action.payload));
+    console.log(antigoExpense);
+    const ValorConvertido = (Number(antigoExpense[0].value)
+        * Number(antigoExpense[0].exchangeRates[antigoExpense[0].currency].ask));
+    console.log(ValorConvertido);
+    const novoResultado = state.totalValue - ValorConvertido;
+    return {
+      ...state,
+      expenses: novoExpense,
+      totalValue: novoResultado,
+    };
+  }
   default:
     return state;
   }

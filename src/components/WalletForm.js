@@ -67,11 +67,11 @@ class WalletForm extends Component {
     return (
       <div>
         { loading ? <Load /> : (
-          <div className="FormularioWallet mb-3">
+          <div className="Wallet mb-3">
             <p>
               Adicione despesas ou entradas
             </p>
-            <form>
+            <form className="FormularioWallet">
               <label htmlFor="Valor" className="form-label">
                 Valor:
                 <input
