@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
-import { deleteExpenses } from '../redux/actions';
+import { deleteExpenses, editExpenses } from '../redux/actions';
 
 class Table extends Component {
   handleDelete = (event) => {
@@ -10,12 +10,17 @@ class Table extends Component {
     dispatch(deleteExpenses(event.target.name));
   };
 
+  handleEdit = (event) => {
+    const { dispatch } = this.props;
+    dispatch(editExpenses(event.target.name));
+  };
+
   render() {
     const { Expenses } = this.props;
     return (
       <div>
         <table className="table table-light table-hover table-bordered border-dark">
-          <tbody>
+          <thead>
             <tr>
               <th>
                 Descrição;
@@ -45,6 +50,8 @@ class Table extends Component {
                 Editar/Excluir.
               </th>
             </tr>
+          </thead>
+          <tbody>
             { Expenses.map((expenses) => (
               <tr key={ expenses.id }>
                 <td>
@@ -59,13 +66,13 @@ class Table extends Component {
                   { expenses.method }
                 </td>
                 <td>
-                  { expenses.value }
+                  { Number(expenses.value).toFixed(2) }
                 </td>
                 <td>
                   { expenses.exchangeRates[expenses.currency].name }
                 </td>
                 <td>
-                  { expenses.exchangeRates[expenses.currency].ask }
+                  { Number(expenses.exchangeRates[expenses.currency].ask).toFixed(2) }
                 </td>
                 <td>
                   { Number(expenses.value)
@@ -83,8 +90,15 @@ class Table extends Component {
                   >
                     {' '}
                     <AiFillDelete pointerEvents="none" />
-                    <AiFillEdit pointerEvents="none" />
                     {' '}
+                  </button>
+                  <button
+                    type="button"
+                    data-testid="edit-btn"
+                    name={ expenses.id }
+                    onClick={ this.handleEdit }
+                  >
+                    <AiFillEdit pointerEvents="none" />
                   </button>
                 </td>
               </tr>

@@ -1,5 +1,6 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-import { DELETE_EXPENSES, REQUESTED_CURRENCIES, SAVE_EXPENSES } from '../actions';
+import { DELETE_EXPENSES, EDIT_EXPENSES, REQUESTED_CURRENCIES,
+  SAVE_EXPENSES } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [], // array de string
@@ -24,8 +25,9 @@ const wallet = (state = INITIAL_STATE, action) => {
   const resultado = Number(state.totalValue) + Number(ValorConvertido);
   return {
     ...state,
-    expenses: [...state.expenses, action.payload],
+    expenses: [action.payload, ...state.expenses],
     totalValue: resultado,
+    editor: false,
   }; }
   case DELETE_EXPENSES:
   {
@@ -33,15 +35,23 @@ const wallet = (state = INITIAL_STATE, action) => {
     === Number(action.payload));
     const novoExpense = state.expenses.filter((states) => Number(states.id)
       !== Number(action.payload));
-    console.log(antigoExpense);
     const ValorConvertido = (Number(antigoExpense[0].value)
         * Number(antigoExpense[0].exchangeRates[antigoExpense[0].currency].ask));
-    console.log(ValorConvertido);
-    const novoResultado = state.totalValue - ValorConvertido;
+    const novoResultado = state.totalValue.toFixed(2) - ValorConvertido.toFixed(2);
     return {
       ...state,
       expenses: novoExpense,
       totalValue: novoResultado,
+    };
+  }
+  case EDIT_EXPENSES:
+  {
+    const despesaASerEditada = state.expenses.filter((states) => Number(states.id)
+      === Number(action.payload));
+    return {
+      ...state,
+      isToEdit: despesaASerEditada,
+      editor: true,
     };
   }
   default:

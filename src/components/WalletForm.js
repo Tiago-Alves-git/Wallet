@@ -63,7 +63,7 @@ class WalletForm extends Component {
 
   render() {
     const { loading, ValorDespesa, Descrição, Moeda, Payment, Tag } = this.state;
-    const { Moedas } = this.props;
+    const { Moedas, editor } = this.props;
     return (
       <div>
         { loading ? <Load /> : (
@@ -71,51 +71,55 @@ class WalletForm extends Component {
             <p>
               Adicione despesas ou entradas
             </p>
-            <form className="FormularioWallet">
-              <label htmlFor="Valor" className="form-label">
-                Valor:
-                <input
-                  type="text"
-                  data-testid="value-input"
-                  name="ValorDespesa"
-                  className="form-control"
-                  value={ ValorDespesa }
-                  onChange={ this.handleForm }
+            { !editor
+            && (
+              <form className="FormularioWallet">
+                <label htmlFor="Valor" className="form-label">
+                  Valor:
+                  <input
+                    type="text"
+                    data-testid="value-input"
+                    name="ValorDespesa"
+                    className="form-control"
+                    value={ ValorDespesa }
+                    onChange={ this.handleForm }
+                  />
+                </label>
+                <label htmlFor="Descrição" className="form-label">
+                  Descrição:
+                  <textarea
+                    name="Descrição"
+                    rows="1"
+                    cols="20"
+                    className="form-control"
+                    data-testid="description-input"
+                    value={ Descrição }
+                    onChange={ this.handleForm }
+                  />
+                </label>
+                <OptionCoin
+                  Moedas={ Moedas }
+                  handleForm={ this.handleForm }
+                  defaultValue={ Moeda }
                 />
-              </label>
-              <label htmlFor="Descrição" className="form-label">
-                Descrição:
-                <textarea
-                  name="Descrição"
-                  rows="1"
-                  cols="20"
-                  className="form-control"
-                  data-testid="description-input"
-                  value={ Descrição }
-                  onChange={ this.handleForm }
+                <OptionPayment
+                  handleForm={ this.handleForm }
+                  defaultValue={ Payment }
                 />
-              </label>
-              <OptionCoin
-                Moedas={ Moedas }
-                handleForm={ this.handleForm }
-                defaultValue={ Moeda }
-              />
-              <OptionPayment
-                handleForm={ this.handleForm }
-                defaultValue={ Payment }
-              />
-              <OptionCategory
-                handleForm={ this.handleForm }
-                defaultValue={ Tag }
-              />
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={ this.saveForm }
-              >
-                Adicionar Despesa
-              </button>
-            </form>
+                <OptionCategory
+                  handleForm={ this.handleForm }
+                  defaultValue={ Tag }
+                />
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={ this.saveForm }
+                >
+                  Adicionar Despesa
+                </button>
+
+              </form>
+            )}
           </div>)}
       </div>
     );
@@ -124,6 +128,7 @@ class WalletForm extends Component {
 
 const mapStateToProps = (state) => ({
   Moedas: state.wallet.currencies,
+  editor: state.wallet.editor,
 });
 
 WalletForm.propTypes = {

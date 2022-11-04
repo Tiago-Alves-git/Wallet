@@ -1,0 +1,25 @@
+.editForm {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.editForm-Inner {
+  background-color: white;
+  max-width: 1040px;
+  padding: 32px;
+  position: relative;
+  width: 100%;
+}
+
+.editForm-Inner .editForm-Button {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
