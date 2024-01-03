@@ -26,6 +26,8 @@ A tabela de despesas segue o seguinte layout:
 
 Para iniciar o projeto, siga os passos abaixo:
 
+* Certifique-se de estar na pasta correta antes de iniciar os passos.
+
 1. **Instale as Dependências:**
    ```bash
    npm install
