@@ -4,6 +4,7 @@ import '../Style/Login.css';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { addEmail, ADD_EMAIL } from '../redux/actions';
+import LoginForm from '../components/LoginForm';
 // No import
 
 class Login extends React.Component {
@@ -13,11 +14,8 @@ class Login extends React.Component {
     LoginButton: true,
   };
 
-  handleLogin = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    }, () => this.loginButton());
+  handleLogin = ({ target: { name, value } }) => {
+    this.setState({ [name]: value }, () => this.loginButton());
   };
 
   loginButton = () => {
@@ -42,44 +40,13 @@ class Login extends React.Component {
     return (
       <div>
         <Header />
-        <form className="Formulario">
-          <div className="mb-3">
-            <label htmlFor="InputEmail" className="form-label">
-              <input
-                type="email"
-                className="form-control"
-                aria-describedby="emailHelp"
-                placeholder="Email"
-                onChange={ this.handleLogin }
-                name="Email"
-                value={ Email }
-                data-testid="email-input"
-              />
-            </label>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="InputPassword" className="form-label">
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Senha"
-                name="Senha"
-                onChange={ this.handleLogin }
-                value={ Senha }
-                data-testid="password-input"
-              />
-            </label>
-          </div>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={ LoginButton }
-            onClick={ this.handleSubmit }
-          >
-            Entrar
-
-          </button>
-        </form>
+        <LoginForm
+          handleLogin={ this.handleLogin }
+          Email={ Email }
+          Senha={ Senha }
+          LoginButton={ LoginButton }
+          handleSubmit={ this.handleSubmit }
+        />
       </div>
     );
   }
