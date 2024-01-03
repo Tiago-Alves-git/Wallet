@@ -73,9 +73,6 @@ class WalletForm extends Component {
       <div>
         { loading ? <Load /> : (
           <div className="Wallet mb-3">
-            <p>
-              Adicione despesas ou entradas
-            </p>
             { !editor
             && (
               <form className="FormularioWallet">

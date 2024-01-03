@@ -8,6 +8,11 @@ import { BiUserCheck } from 'react-icons/bi';
 class HeaderWallet extends Component {
   render() {
     const { email, totalValue } = this.props;
+    const formattedTotalValue = Number(totalValue).toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+    });
     return (
       <div
         className="HeaderWallet p-3 mb-2 bg-dark text-white
@@ -25,7 +30,7 @@ class HeaderWallet extends Component {
           { email }
         </div>
         <div data-testid="total-field">
-          { Number(totalValue).toFixed(2) }
+          { formattedTotalValue }
         </div>
         <div data-testid="header-currency-field">
           { ' BRL ' }
